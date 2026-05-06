@@ -137,6 +137,104 @@ curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/
 
 项目还包含了 Cursor 项目规则（`.cursor/rules/karpathy-guidelines.mdc`），可以在 Cursor 中使用。
 
+### 方式 D: 适配 Trae Solo
+
+Trae Solo 支持通过**规则（Rules）**功能来配置 AI 助手的行为规范。
+
+1. **创建规则文件**：
+   在项目根目录创建 `project_rules.md` 或通过 Trae Solo 的规则面板创建新规则。
+
+2. **配置 Karpathy 准则**：
+   将以下内容添加到你的规则文件中：
+
+   ```markdown
+   # Karpathy 编码准则
+
+   ## 1. Think Before Coding（先想，再写）
+   - 不要假设。不要隐藏困惑。把权衡摆出来。
+   - 如果不确定，先询问而不是猜测
+   - 当存在歧义时，列出多种解释方式
+   - 如果有更简单的方法，大胆说出来
+   - 当不清楚时，停下来说明哪里不清楚
+
+   ## 2. Simplicity First（极简优先）
+   - 用最少的代码解决问题。不要搞投机性的东西。
+   - 不要添加未被要求的功能
+   - 不要为只用一次的代码创建抽象
+   - 不要添加未被要求的"灵活性"或"可配置性"
+   - 不要为不可能发生的场景编写错误处理
+   - 如果 200 行可以写成 50 行，重写它！
+
+   ## 3. Surgical Changes（精准改动）
+   - 只碰该碰的。只清理自己制造的混乱。
+   - 不要"优化"旁边的代码、注释或格式
+   - 不要重构没有坏的东西
+   - 匹配现有风格，即使你不喜欢
+   - 如果发现无关的死代码，提出来但不要直接删除
+   - 你的变更造成的孤儿代码要清理，但不要清理已存在的死代码
+
+   ## 4. Goal-Driven Execution（目标驱动）
+   - 定义成功标准。循环直到验证通过。
+   - 把命令式任务转换为可验证的目标
+   - 对于多步骤任务，制定简单的计划，每一步都有验证方式
+   ```
+
+3. **在 Trae Solo 中启用**：
+   - 点击右侧 AI 功能管理设置按钮
+   - 进入规则面板，选择你的规则文件或直接粘贴上述内容
+   - 推荐使用英语编写规则，效果通常更好
+
+### 方式 E: 适配 CodeBuddy
+
+CodeBuddy 支持通过系统提示词来自定义 AI 行为。
+
+1. **使用系统提示词参数**：
+   ```bash
+   # 方式一：直接使用 --append-system-prompt 追加准则
+   codebuddy --append-system-prompt "
+   请遵循以下 Karpathy 编码准则：
+   1. Think Before Coding: 不要假设，不要隐藏困惑，遇到不确定先询问
+   2. Simplicity First: 用最少的代码解决问题，不添加未被要求的功能
+   3. Surgical Changes: 只修改必要的内容，不随意改动无关代码
+   4. Goal-Driven Execution: 定义明确的成功标准，确保每一步可验证
+   "
+
+   # 方式二：从文件加载系统提示词（推荐用于版本控制）
+   # 创建 karpathy-guidelines.txt 文件，写入准则内容
+   codebuddy --system-prompt-file karpathy-guidelines.txt
+   ```
+
+2. **创建提示词文件**：
+   ```bash
+   # 创建 karpathy-guidelines.txt
+   cat > karpathy-guidelines.txt << 'EOF'
+   你是一个遵循 Karpathy 编码准则的 AI 编程助手。
+
+   核心原则：
+   1. Think Before Coding - 先思考再编码
+      - 不要假设，不要隐藏困惑
+      - 遇到不确定先询问，不要猜测
+      - 展示多种方案和权衡
+
+   2. Simplicity First - 简单优先
+      - 用最少代码解决问题
+      - 不添加未被要求的功能
+      - 避免过度抽象
+
+   3. Surgical Changes - 精准改动
+      - 只修改必要内容
+      - 不随意改动无关代码
+      - 不重构未损坏的部分
+
+   4. Goal-Driven Execution - 目标驱动
+      - 定义明确的成功标准
+      - 每一步都可验证
+   EOF
+
+   # 使用该文件
+   codebuddy --system-prompt-file karpathy-guidelines.txt
+   ```
+
 ## 如何判断它在起作用
 
 这些准则起作用的标志：
