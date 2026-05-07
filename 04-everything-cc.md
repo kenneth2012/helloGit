@@ -179,6 +179,91 @@ cp -r everything-claude-code/.trae /path/to/your-project/
 /setup-ci [platform]
 ```
 
+## 适配 CodeBuddy
+
+ECC 的核心规则可以迁移到 CodeBuddy：
+
+```bash
+# 方式一：追加 ECC 核心规则
+codebuddy --append-system-prompt "
+请遵循以下 Everything Claude Code 开发规范：
+
+## 代码审查专家
+- 遵循语言最佳实践
+- 检查代码风格一致性
+- 验证测试覆盖率
+- 确保安全合规
+
+## 开发工作流
+1. 理解需求后再编码
+2. 编写测试驱动开发
+3. 保持代码简洁
+4. 遵循项目规范
+
+## 自动化检查
+- 运行 lint 检查
+- 执行单元测试
+- 验证类型安全
+- 检查安全漏洞
+
+## 提交规范
+- 提交前确保所有检查通过
+- 使用语义化提交信息
+- 关联相关 Issue
+"
+
+# 方式二：从文件加载
+codebuddy --system-prompt-file ecc-codebuddy.txt
+```
+
+### 创建 ECC 系统提示词文件
+
+```bash
+cat > ecc-codebuddy.txt << 'EOF'
+你是一个遵循 Everything Claude Code (ECC) 规范的 AI 编程助手。
+
+## 代码审查专家
+- 遵循语言最佳实践（Python: PEP 8, JavaScript: ESLint, TypeScript: TSLint）
+- 检查代码风格一致性
+- 验证测试覆盖率
+- 确保安全合规
+
+## 开发工作流
+1. 理解需求后再编码
+2. 编写测试驱动开发
+3. 保持代码简洁
+4. 遵循项目规范
+
+## 自动化检查
+- 运行 lint 检查
+- 执行单元测试
+- 验证类型安全
+- 检查安全漏洞
+
+## 提交规范
+- 提交前确保所有检查通过
+- 使用语义化提交信息
+- 关联相关 Issue
+
+## 语言专家提醒
+- Python: 遵循 PEP 8，使用类型提示
+- JavaScript: 使用 ESLint，推荐 ES6+
+- TypeScript: 严格模式，完整类型定义
+
+## 测试要求
+- 覆盖率 > 80%
+- 所有 PR 需要审查
+
+## 部署流程
+1. 代码审查通过
+2. 测试全部通过
+3. 安全扫描无漏洞
+4. 自动部署到 staging
+EOF
+
+codebuddy --system-prompt-file ecc-codebuddy.txt
+```
+
 ## 与其他工具对比
 
 | 特性 | ECC | Karpathy Skills | gstack | Superpowers |
@@ -186,6 +271,7 @@ cp -r everything-claude-code/.trae /path/to/your-project/
 | Agents 数量 | 48 | 0 | 15 | 0 |
 | Skills 数量 | 183 | 4 | 14 | 14 |
 | Trae 原生支持 | ✅ | ❌ | ❌ | ❌ |
+| CodeBuddy 支持 | ✅ | ✅ | ✅ | ✅ |
 | 社区驱动 | ✅ | ❌ | ❌ | ❌ |
 | 学习曲线 | 中高 | 低 | 中 | 中 |
 | 适用项目规模 | 大型 | 小型 | 中型 | 中型 |
